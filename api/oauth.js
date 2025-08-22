@@ -13,6 +13,15 @@ export default async function handler(req, res) {
   const code = req.query.code;
   if (!code) return res.status(400).send('Brak kodu Discord');
 
+  // 🔎 Debug – sprawdzamy jakie ENV widzi serwer
+  console.log("✅ ENV CHECK", {
+    CLIENT_ID: process.env.DISCORD_CLIENT_ID,
+    CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET ? "✔️ set" : "❌ missing",
+    BOT_TOKEN: process.env.DISCORD_BOT_TOKEN ? "✔️ set" : "❌ missing",
+    SUPABASE_URL: process.env.SUPABASE_URL ? "✔️ set" : "❌ missing",
+    SUPABASE_KEY: process.env.SUPABASE_KEY ? "✔️ set" : "❌ missing"
+  });
+
   try {
     // 1. Pobierz access_token z Discorda
     const tokenRes = await fetch('https://discord.com/api/oauth2/token', {

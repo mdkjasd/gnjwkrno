@@ -4,15 +4,12 @@ import crypto from "crypto";
 export default async function handler(req, res) {
   const { fp } = req.query;
   const secretBase = "xertisolemoner"; // zmień na swój
-
-  // 👉 Tryb "soft" — tylko loguje do konsoli zamiast blokować stronę
   const scriptToProtect = `
     // 🔒 Anty-debug payload
     setInterval(() => {
       if (window.console || window.devtools || window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
-        console.warn('[ANTI-DEBUG] Debug wykryty!');
-        // document.body.innerHTML = '';  // <- zakomentowane, żeby nie blokować strony
-        // alert('Debug wykryty!');       // <- zakomentowane
+        document.body.innerHTML = '';
+        alert('Debug wykryty!');
       }
     }, 300);
   `;
@@ -40,10 +37,7 @@ export default async function handler(req, res) {
   );
   encrypted += cipher.final("base64");
 
-  const hash = crypto
-    .createHash("sha256")
-    .update(scriptToProtect)
-    .digest("hex");
+  const hash = crypto.createHash("sha256").update(scriptToProtect).digest("hex");
 
   res.status(200).json({
     iv: iv.toString("base64"),

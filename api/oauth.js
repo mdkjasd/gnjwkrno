@@ -6,7 +6,7 @@ const supabase = createClient(
   process.env.SUPABASE_KEY
 );
 
-const guildId = '1407524039928578068';
+const guildId = '1407523175889108992';
 const botToken = process.env.DISCORD_BOT_TOKEN;
 
 export default async function handler(req, res) {
